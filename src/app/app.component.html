@@ -40,10 +40,42 @@
 
         </ion-list>
 
+        <ion-list id="inbox-list">
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerDirection="root" routerLink="/profile" lines="none" detail="false"
+              routerLinkActive="selected">
+              <ion-avatar slot="start">
+                <img src="{{ user.photoURL }}">
+              </ion-avatar>
+              <ion-label>
+                <h2>{{ user.displayName }}</h2>
+                <p>{{ user.email }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ng-template #showLogin>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerDirection="root" routerLink="/login" lines="none" detail="false"
+              routerLinkActive="selected">
+              <ion-avatar slot="start">
+                <img src="assets/user.png">
+              </ion-avatar>
+              <ion-label>
+                <h2>Faça seu Login</h2>
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ng-template>
+
+          
+        </ion-list>
+
       </ion-content>
 
       <div class="ion-text-center ion-padding">
-        <small>&copy; 2021 Copyright André Luferat.</small>
+        <small>&copy; 2021 Copyright Amanda Lima.</small>
       </div>
 
     </ion-menu>
