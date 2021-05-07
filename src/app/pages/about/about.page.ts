@@ -7,23 +7,22 @@ import {
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
-
 @Component({
   selector: 'app-about',
   templateUrl: './about.page.html',
   styleUrls: ['./about.page.scss'],
 })
 export class AboutPage implements OnInit {
-
-    // Atributos
-    private itemsCollection: AngularFirestoreCollection<any>;
-    items: Observable<any>;
+  // Atributos
+  private itemsCollection: AngularFirestoreCollection<any>;
+  items: Observable<any>;
 
   constructor(
     // Injeta dependências
     private afs: AngularFirestore
-  )  { 
-  this.items = afs
+  ) {
+    // Obtém dados do Firestore
+    this.items = afs
       .collection(
         'about',
         (ref) =>
@@ -34,7 +33,5 @@ export class AboutPage implements OnInit {
       .valueChanges({ idField: 'id' });
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

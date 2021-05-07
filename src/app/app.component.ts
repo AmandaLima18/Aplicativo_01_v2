@@ -13,6 +13,8 @@ export class AppComponent {
 
   constructor(
 
+    // Injeta dependências
     public auth: AngularFireAuth
   ) {}
+
 }

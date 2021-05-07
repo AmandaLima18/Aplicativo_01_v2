@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  
+
   // Atributos
   private itemsCollection: AngularFirestoreCollection<any>;
   items: Observable<any>;

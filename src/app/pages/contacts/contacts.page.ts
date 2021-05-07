@@ -11,6 +11,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { DatePipe } from '@angular/common';
 import { AlertController } from '@ionic/angular';
 
+// Importa Autenticador
+import { AngularFireAuth } from '@angular/fire/auth';
+
 // Validação (filtro) personalizado
 // Não permite compos somente com espaços
 export function removeSpaces(control: AbstractControl) {
@@ -36,13 +39,26 @@ export class ContactsPage implements OnInit {
     // Injeta dependências
     public form: FormBuilder,
     public afs: AngularFirestore,
-    public alert: AlertController
+    public alert: AlertController,
+    public auth: AngularFireAuth
   ) { }
 
   ngOnInit() {
 
     // Cria os campos do formulário
     this.contactFormCreate();
+
+    // Preenche nome e email se usuário está logado
+    if (this.contactForm) {
+      this.auth.onAuthStateChanged(
+        (userData) => {
+          if(userData) {
+            this.contactForm.controls.name.setValue(userData.displayName.trim());
+            this.contactForm.controls.email.setValue(userData.email.trim());
+          }
+        }
+      );
+    }
   }
 
   // Cria os campos do formulário
@@ -131,21 +147,26 @@ export class ContactsPage implements OnInit {
   // Popup de feedback
   async feedback() {
 
+    // Obtém somente primeiro nome do remetente
     var name = this.contactForm.controls.name.value.split(' ');
 
-
     const alert = await this.alert.create({
-      header: `Olá ${this.contactForm.controls.name.value}!`,
+      header: `Olá ${name[0]}!`,
       message: 'Seu contato foi enviado com sucesso para a equipe do aplicativo.',
       buttons : [
 
-        // Botão [Ok]~
+        // Botão [Ok]
         {
           text: 'Ok',
           handler: () => {
 
             // Reset do formulário
-            this.contactForm.reset();
+            this.contactForm.reset({
+
+              // Mantém o nome e e-mail do rementente
+              name: this.contactForm.controls.name.value,
+              email: this.contactForm.controls.email.value
+            });
           }
         }
       ]
